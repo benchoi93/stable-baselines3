@@ -433,6 +433,10 @@ class OffPolicyAlgorithm(BaseAlgorithm):
         if len(self.ep_info_buffer) > 0 and len(self.ep_info_buffer[0]) > 0:
             self.logger.record("rollout/ep_rew_mean", safe_mean([ep_info["r"] for ep_info in self.ep_info_buffer]))
             self.logger.record("rollout/ep_len_mean", safe_mean([ep_info["l"] for ep_info in self.ep_info_buffer]))
+
+            arr = [ep_info["r"] for ep_info in self.ep_info_buffer]
+            self.logger.record("rollout/ep_rew_min", np.nan if len(arr) == 0 else np.min(arr))
+            self.logger.record("rollout/ep_rew_max", np.nan if len(arr) == 0 else np.max(arr))
         self.logger.record("time/fps", fps)
         self.logger.record("time/time_elapsed", int(time_elapsed), exclude="tensorboard")
         self.logger.record("time/total timesteps", self.num_timesteps, exclude="tensorboard")
