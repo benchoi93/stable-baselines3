@@ -208,7 +208,8 @@ class MlpExtractor(nn.Module):
                 value_net.append(nn.Linear(last_layer_dim_vf, vf_layer_size))
                 value_net.append(activation_fn())
                 last_layer_dim_vf = vf_layer_size
-
+        policy_net.append(nn.Linear(last_layer_dim_pi, pi_layer_size))
+        value_net.append(nn.Linear(last_layer_dim_vf, vf_layer_size))
         # Save dim, used to create the distributions
         self.latent_dim_pi = last_layer_dim_pi
         self.latent_dim_vf = last_layer_dim_vf
