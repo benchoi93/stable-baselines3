@@ -155,8 +155,9 @@ class PPO(OnPolicyAlgorithm):
         super(PPO, self)._setup_model()
 
         # Initialize schedules for policy/value clipping
-        if len(self.clip_range) == 0:
-            self.clip_range = 0.2
+        if not isinstance(self.clip_range, (float, int)):
+            if len(self.clip_range) == 0:
+                self.clip_range = 0.2
         self.clip_range = get_schedule_fn(self.clip_range)
         if self.clip_range_vf is not None:
             if isinstance(self.clip_range_vf, (float, int)):
